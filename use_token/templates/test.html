@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<div id="main"></div>
+</body>
+
+<script>
+$(document).ready(function() {
+    var token = localStorage["mytest"];
+    console.log(token);
+    $.ajax({
+    type: "GET",
+    url: "/user/userToken/",
+    dataType:'JSON',
+    headers: {'Authorization': token},
+    success: function(data){
+        $("#main").text(data.msg);
+    }
+});
+});
+</script>
+</html>

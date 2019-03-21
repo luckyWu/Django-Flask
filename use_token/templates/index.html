@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<form id="login">
+    {% csrf_token %}
+            <tr>
+                    <input type="text" class="name" name="username">
+            </tr>
+           <tr>
+                    <input type="text" class="pw" name="password">
+            </tr>
+    <input type="submit" id="form-login" value="登陆">
+</form>
+<script>
+$(document).ready(function() {
+
+      $("#login").submit(function(e){
+        e.preventDefault();
+        var name = $(".name").val();
+        var pw = $(".pw").val();
+        $.ajax({
+            url:'/user/login/',
+            type:'POST',
+            dataType:'JSON',
+            data:{'username':name,'password':pw,csrfmiddlewaretoken:'{{ csrf_token }}'},
+            success:function(data){
+                if(data.code == 100)
+                {console.log('OK');
+                localStorage["mytest"]=data.token;
+                location = "/user/test/";
+                }
+            },
+            error:function(data){
+                console.log('错误！')
+            }
+        })
+})
+    });
+</script>
+</body>
+</html>
